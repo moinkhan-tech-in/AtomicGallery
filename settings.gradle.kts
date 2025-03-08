@@ -21,4 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "Avrioc Gallery"
 include(":app")
- 
+include(":data")
+include(":domain")
+include(":common")
