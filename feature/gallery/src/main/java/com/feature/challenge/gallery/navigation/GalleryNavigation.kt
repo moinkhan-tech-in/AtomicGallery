@@ -16,7 +16,7 @@ fun NavGraphBuilder.gallerySection() {
 
     navigation<GalleryBaseRoute>(startDestination = GalleryRoute) {
 
-        composable<GalleryRoute>() {
+        composable<GalleryRoute> {
             GalleyMediaFolderScreen()
         }
     }

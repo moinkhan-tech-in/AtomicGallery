@@ -1,7 +1,7 @@
 package com.challenge.data;
 
+import com.challenge.common.model.MediaFolder
 import com.challenge.data.local.MediaFetcher
-import com.challenge.data.model.MediaFolderNode
 import com.challenge.data.repository.LocalStorageMediaRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -44,11 +44,8 @@ class LocalStorageMediaRepositoryTest {
     @Test
     fun `getMediaHierarchy returns success when MediaFetcher succeeds`() = runTest {
         // Given
-        val expectedNode = MediaFolderNode(
-            name = "Root", path = "", mediaItems = mutableListOf(),
-            subFolders = mutableMapOf(), parent = null
-        )
-        given(mediaFetcher.fetchMediaHierarchy()).willReturn(expectedNode)
+        val expectedNode = listOf(MediaFolder(name = "Root", path = "", mediaFiles = mutableListOf()))
+        given(mediaFetcher.fetchMedia()).willReturn(expectedNode)
 
         // When
         val result = repository.getMediaHierarchy()
@@ -62,7 +59,7 @@ class LocalStorageMediaRepositoryTest {
     fun `getMediaHierarchy returns failure when MediaFetcher throws IOException`() = runTest {
         // Given
         val exception = IOException("MediaStore query failed")
-        given(mediaFetcher.fetchMediaHierarchy()).willThrow(exception)
+        given(mediaFetcher.fetchMedia()).willThrow(exception)
 
         // When
         val result = repository.getMediaHierarchy()

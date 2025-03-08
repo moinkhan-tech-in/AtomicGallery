@@ -3,46 +3,31 @@ package com.challenge.data.local
 import android.content.ContentResolver
 import android.content.Context
 import android.database.Cursor
+import android.net.Uri
 import android.provider.MediaStore
-import com.challenge.data.model.MediaFolderNode
-import com.challenge.data.model.MediaItem
-import com.challenge.data.model.MediaType
+import com.challenge.common.model.MediaFile
+import com.challenge.common.model.MediaFolder
+import com.challenge.common.model.MediaType
 import java.io.File
 import java.io.IOException
-import javax.inject.Singleton
-import kotlin.jvm.Throws
 
 class MediaFetcher(private val context: Context) {
 
     @Throws(IOException::class)
-    fun fetchMediaHierarchy(): MediaFolderNode {
-        val rootNode = MediaFolderNode(
-            name = "Root",
-            path = "",
-            mediaItems = mutableListOf(),
-            subFolders = mutableMapOf(),
-            parent = null
-        )
+    fun fetchMedia(): List<MediaFolder> {
+
         val contentResolver = context.contentResolver
 
-        fetchMedia(contentResolver, MediaType.Image, rootNode)
-        fetchMedia(contentResolver, MediaType.Video, rootNode)
-
-        return rootNode
+        return fetchMediaByType(contentResolver, MediaType.Image)
+            .plus(fetchMediaByType(contentResolver, MediaType.Video))
     }
 
 
-    private fun fetchMedia(
-        contentResolver: ContentResolver,
-        mediaType: MediaType,
-        rootNode: MediaFolderNode
-    ) {
+    private fun fetchMediaByType(contentResolver: ContentResolver, mediaType: MediaType): List<MediaFolder> {
         val projection = arrayOf(
             MediaStore.MediaColumns._ID,
             MediaStore.MediaColumns.DATA,
-            MediaStore.MediaColumns.DISPLAY_NAME,
-            MediaStore.MediaColumns.DATE_ADDED,
-            MediaStore.MediaColumns.MIME_TYPE
+            MediaStore.MediaColumns.DISPLAY_NAME
         )
 
         contentResolver.query(
@@ -52,49 +37,40 @@ class MediaFetcher(private val context: Context) {
             null,
             "${MediaStore.MediaColumns.DATE_ADDED} DESC"
         )?.use { cursor ->
-            processCursor(cursor, mediaType, rootNode)
+            return processCursor(cursor, mediaType)
         } ?: throw IOException("Failed to query $mediaType.uri")
     }
 
-    private fun processCursor(cursor: Cursor, mediaType: MediaType, rootNode: MediaFolderNode) {
+    private fun processCursor(cursor: Cursor, mediaType: MediaType): List<MediaFolder> {
+        val mediaFolders = mutableMapOf<String, MediaFolder>()
+
         val idColumn = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID)
         val pathColumn = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
         val nameColumn = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME)
-        val dateColumn = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATE_ADDED)
-        val mimeColumn = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.MIME_TYPE)
 
         while (cursor.moveToNext()) {
-            val mediaItem = MediaItem(
-                id = cursor.getLong(idColumn),
-                path = cursor.getString(pathColumn) ?: continue,
-                name = cursor.getString(nameColumn) ?: "Unknown",
-                dateAdded = cursor.getLong(dateColumn),
-                mimeType = cursor.getString(mimeColumn) ?: "unknown",
+
+            val id = cursor.getLong(idColumn)
+            val name = cursor.getString(nameColumn)
+            val path = cursor.getString(pathColumn)
+            val fileUri = Uri.withAppendedPath(mediaType.uri, id.toString())
+
+            val folderPath = File(path).parent ?: continue
+            val folderName = File(folderPath).name
+
+            val mediaFile = MediaFile(
+                uri = fileUri,
+                name = name,
+                path = path,
                 mediaType = mediaType
             )
-            addToHierarchy(mediaItem, rootNode)
-        }
-    }
 
-
-    private fun addToHierarchy(item: MediaItem, rootNode: MediaFolderNode) {
-        val file = File(item.path)
-        val parentPath = file.parent ?: return
-        val pathParts = parentPath.split(File.separator).filter { it.isNotEmpty() }
-
-        var currentNode = rootNode
-        for (part in pathParts) {
-            currentNode = currentNode.subFolders.getOrPut(part) {
-                MediaFolderNode(
-                    name = part,
-                    path = if (currentNode.path.isEmpty()) part else "${currentNode.path}${File.separator}$part",
-                    mediaItems = mutableListOf(),
-                    subFolders = mutableMapOf(),
-                    parent = currentNode
-                )
+            if (!mediaFolders.containsKey(folderPath)) {
+                mediaFolders[folderPath] = MediaFolder(folderName, folderPath, mutableListOf())
             }
+            mediaFolders[folderPath]?.mediaFiles?.add(mediaFile)
         }
-        currentNode.mediaItems.add(item)
-    }
 
+        return mediaFolders.values.toList()
+    }
 }

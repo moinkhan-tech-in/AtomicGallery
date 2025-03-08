@@ -1,4 +1,4 @@
-package com.challenge.data.model
+package com.challenge.common.model
 
 import android.net.Uri
 import android.provider.MediaStore
