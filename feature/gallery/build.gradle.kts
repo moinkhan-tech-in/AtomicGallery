@@ -46,6 +46,7 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.material3)
     implementation(libs.androidx.compose.navigation)
+    implementation(libs.accompanist.permissions)
 
     implementation(libs.kotlinx.serialization.json)
 

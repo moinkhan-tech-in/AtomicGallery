@@ -3,7 +3,7 @@ package com.feature.challenge.gallery.navigation
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.feature.challenge.gallery.ui.GalleyMediaFolderScreen
+import com.feature.challenge.gallery.ui.MediaFolderScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -17,7 +17,7 @@ fun NavGraphBuilder.gallerySection() {
     navigation<GalleryBaseRoute>(startDestination = GalleryRoute) {
 
         composable<GalleryRoute> {
-            GalleyMediaFolderScreen()
+            MediaFolderScreen()
         }
     }
 }
