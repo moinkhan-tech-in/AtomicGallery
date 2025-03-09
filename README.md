@@ -30,8 +30,15 @@ app -> :feature:gallery, :common
 - **app** → Main application entry point  
 - **feature:gallery** → Contains UI and feature-specific logic  
 - **domain** → Contains business logic and use cases  
-- **data** → Handles data sources (API, Database, etc.)  
+- **data** → Handles data sources (LocalStorage, Database, etc.)  
 - **common** → Contains shared utilities  
+
+## 📸 Screenshots  
+### View Type Grid
+![image](https://github.com/user-attachments/assets/d4c758dc-8133-4c9a-9eb4-cb1917ccf8ad=593x1157)
+![image](https://github.com/user-attachments/assets/5c869558-7925-4755-a236-048bcb359c9f=593x1157)
+
+
 
 ## 🛠️ Tech Stack  
 - **Jetpack Compose** - UI Toolkit  
