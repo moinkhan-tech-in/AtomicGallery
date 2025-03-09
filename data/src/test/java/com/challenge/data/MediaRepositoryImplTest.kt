@@ -1,6 +1,7 @@
 package com.challenge.data;
 
-import com.challenge.common.model.MediaFolder
+import com.challenge.common.model.MediaItem
+import com.challenge.common.model.MediaItemType
 import com.challenge.data.local.MediaFetcher
 import com.challenge.data.repository.LocalStorageMediaRepository
 import kotlinx.coroutines.Dispatchers
@@ -44,7 +45,7 @@ class LocalStorageMediaRepositoryTest {
     @Test
     fun `getMediaHierarchy returns success when MediaFetcher succeeds`() = runTest {
         // Given
-        val expectedNode = listOf(MediaFolder(name = "Root", path = "", mediaFiles = mutableListOf()))
+        val expectedNode = listOf(MediaItem(name = "Root", path = "", type = MediaItemType.Video, mediaItems = mutableListOf()))
         given(mediaFetcher.fetchMedia()).willReturn(expectedNode)
 
         // When

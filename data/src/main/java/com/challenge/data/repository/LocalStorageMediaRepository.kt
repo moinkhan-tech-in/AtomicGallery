@@ -2,7 +2,7 @@ package com.challenge.data.repository
 
 import com.challenge.common.AppDispatcher
 import com.challenge.common.Dispatcher
-import com.challenge.common.model.MediaFolder
+import com.challenge.common.model.MediaItem
 import com.challenge.data.local.MediaFetcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -17,17 +17,27 @@ class LocalStorageMediaRepository @Inject constructor(
     @Dispatcher(AppDispatcher.IO) private val dispatcher: CoroutineDispatcher
 ) : MediaRepository {
 
-    override suspend fun getMediaHierarchy(): Result<List<MediaFolder>> {
+    // TODO Can be done with separate cached data source
+    private var cachedMediaItems: List<MediaItem>? = null
+
+    override suspend fun getMediaHierarchy(): Result<List<MediaItem>> {
         return withContext(dispatcher) {
             try {
-                Result.success(mediaFetcher.fetchMedia())
+
+                if (cachedMediaItems.isNullOrEmpty().not()) {
+                    return@withContext Result.success(cachedMediaItems.orEmpty())
+                }
+
+                val mediaItems = mediaFetcher.fetchMedia()
+                cachedMediaItems = mediaItems
+                Result.success(mediaItems)
             } catch (e: IOException) {
                 Result.failure(e)
             }
         }
     }
 
-    override fun getMediaHierarchyFlow(): Flow<Result<List<MediaFolder>>> = flow {
+    override fun getMediaHierarchyFlow(): Flow<Result<List<MediaItem>>> = flow {
         emit(getMediaHierarchy())
     }.flowOn(dispatcher)
 }

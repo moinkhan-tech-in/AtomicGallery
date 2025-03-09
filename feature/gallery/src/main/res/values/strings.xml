@@ -4,4 +4,5 @@
     <string name="msg_denied_media_message">This app needs access to your media to show your photos and videos. Please allow media access to continue.</string>
     <string name="action_rationale">Open Settings</string>
     <string name="action_denied">Allow Access</string>
+    <string name="title_avrioc_gallery">Avrioc Gallery</string>
 </resources>

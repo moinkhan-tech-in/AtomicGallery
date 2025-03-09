@@ -8,10 +8,11 @@ import com.feature.challenge.gallery.navigation.gallerySection
 
 @Composable
 fun AvriocNavHost() {
+    val navController = rememberNavController()
     NavHost(
         startDestination = GalleryBaseRoute,
-        navController = rememberNavController()
+        navController = navController
     ) {
-        gallerySection()
+        gallerySection(navController)
     }
 }
