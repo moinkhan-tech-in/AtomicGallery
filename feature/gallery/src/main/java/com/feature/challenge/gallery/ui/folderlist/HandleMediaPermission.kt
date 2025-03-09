@@ -10,6 +10,10 @@ import com.feature.challenge.gallery.ui.folderlist.MediaItemsUiState.PermissionD
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 
+const val ReadImagesPermission = Manifest.permission.READ_MEDIA_IMAGES
+const val ReadVideoPermission = Manifest.permission.READ_MEDIA_VIDEO
+const val ReadExternalStorage = Manifest.permission.READ_EXTERNAL_STORAGE
+
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun HandleMediaPermission(
@@ -18,27 +22,33 @@ fun HandleMediaPermission(
     onDismiss: () -> Unit,
     onDenied: (PermissionDenied) -> Unit
 ) {
-    val mediaPermissionsState = rememberMultiplePermissionsState(
-        listOf(
-            Manifest.permission.READ_MEDIA_IMAGES,
-            Manifest.permission.READ_MEDIA_VIDEO
-        )
-    )
+
+    val mediaPermissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        listOf(ReadImagesPermission, ReadVideoPermission)
+    } else {
+        listOf(ReadExternalStorage)
+    }
+
+    val mediaPermissionsState = rememberMultiplePermissionsState(mediaPermissions)
 
     val mediaPermissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestMultiplePermissions(),
         onResult = { result ->
-            if (result[Manifest.permission.READ_MEDIA_IMAGES] == true
-                && result[Manifest.permission.READ_MEDIA_VIDEO] == true) {
+
+            val readImageAccepted = result[ReadImagesPermission] == true
+            val readVideoAccepted = result[ReadVideoPermission] == true
+            val readExternalAccepted = result[ReadExternalStorage] == true
+
+            if ((readImageAccepted && readVideoAccepted) || readExternalAccepted) {
                 onAccepted()
             } else {
-                onDenied(PermissionDenied(rationalRequired = false))
+                onDenied(PermissionDenied(rationalRequired = mediaPermissionsState.shouldShowRationale))
             }
             onDismiss()
         }
     )
 
-    LaunchedEffect(askPermission) {
+    LaunchedEffect(mediaPermissionsState, askPermission) {
         if (mediaPermissionsState.allPermissionsGranted) {
             onAccepted()
             onDismiss()
@@ -49,13 +59,13 @@ fun HandleMediaPermission(
             onDenied(PermissionDenied(rationalRequired = true))
         } else {
             onDenied(PermissionDenied(rationalRequired = false))
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                mediaPermissionLauncher.launch(
-                    arrayOf(
-                        Manifest.permission.READ_MEDIA_IMAGES,
-                        Manifest.permission.READ_MEDIA_VIDEO
-                    )
-                )
+
+            if (askPermission) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    mediaPermissionLauncher.launch(arrayOf(ReadImagesPermission, ReadVideoPermission))
+                } else {
+                    mediaPermissionLauncher.launch(arrayOf(ReadExternalStorage))
+                }
             }
         }
         onDismiss()

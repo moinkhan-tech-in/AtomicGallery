@@ -11,22 +11,31 @@ import com.feature.challenge.gallery.ui.folderlist.MediaItemsUiState.Success
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+interface MediaItemsViewModelContract {
+    val uiState: StateFlow<MediaItemsUiState>
+    fun fetchAllMedia(path: String? = null)
+    fun onDenied(deniedState: PermissionDenied)
+}
+
 @HiltViewModel
 class MediaItemsViewModel @Inject constructor(
     private val getMediaHierarchyUseCase: GetMediaHierarchyUseCase,
     @Dispatcher(AppDispatcher.IO) private val dispatcher: CoroutineDispatcher
-): ViewModel() {
+): ViewModel(), MediaItemsViewModelContract {
 
     private val _uiState: MutableStateFlow<MediaItemsUiState> = MutableStateFlow(Loading)
-    val uiState = _uiState.asStateFlow()
+    override val uiState = _uiState.asStateFlow()
 
-    private fun fetchAllMedia(path: String? = null) {
+    override fun fetchAllMedia(path: String?) {
         viewModelScope.launch(dispatcher) {
+
+            _uiState.update { Loading }
 
             val result = getMediaHierarchyUseCase.invoke()
             val mediaFolders = result.getOrNull().orEmpty()
@@ -53,11 +62,7 @@ class MediaItemsViewModel @Inject constructor(
         }
     }
 
-    fun onAccepted(path: String? = null) {
-        fetchAllMedia(path)
-    }
-
-    fun onDenied(deniedState: PermissionDenied) {
+    override fun onDenied(deniedState: PermissionDenied) {
         _uiState.update { deniedState }
     }
 }

@@ -59,7 +59,7 @@ class MediaItemsViewModelTest {
         given(getMediaHierarchyUseCase.invoke()).willReturn(Result.success(listOf()))
 
         // When
-        viewModel.onAccepted()
+        viewModel.fetchAllMedia()
 
         // Then
         assertEquals(MediaItemsUiState.Loading, viewModel.uiState.first())
@@ -74,7 +74,7 @@ class MediaItemsViewModelTest {
         given(getMediaHierarchyUseCase.invoke()).willReturn(Result.success(fakeData))
 
         // When
-        viewModel.onAccepted()
+        viewModel.fetchAllMedia()
 
         // Then
         assertEquals(MediaItemsUiState.Loading, viewModel.uiState.first())
@@ -92,7 +92,7 @@ class MediaItemsViewModelTest {
         given(getMediaHierarchyUseCase.invoke()).willReturn(Result.failure(exception))
 
         // When
-        viewModel.onAccepted()
+        viewModel.fetchAllMedia()
 
         // Then:
         assertEquals(MediaItemsUiState.Loading, viewModel.uiState.first())

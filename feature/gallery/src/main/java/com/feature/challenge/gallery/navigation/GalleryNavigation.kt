@@ -30,7 +30,6 @@ data class GalleryImageRoute(
 fun NavGraphBuilder.gallerySection(navController: NavHostController) {
 
     navigation<GalleryBaseRoute>(startDestination = GalleryRoute()) {
-
         composable<GalleryRoute> { route ->
             val args = route.toRoute<GalleryRoute>()
             MediaItemsScreen(

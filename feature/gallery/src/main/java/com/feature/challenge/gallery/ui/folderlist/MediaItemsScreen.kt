@@ -8,10 +8,14 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.challenge.common.LocalViewType
 import com.challenge.common.ViewType
@@ -28,35 +32,49 @@ import com.feature.challenge.gallery.ui.folderlist.MediaItemsUiState.NoMediaAvai
 import com.feature.challenge.gallery.ui.folderlist.MediaItemsUiState.PermissionDenied
 import com.feature.challenge.gallery.ui.folderlist.MediaItemsUiState.Success
 import com.feature.challenge.gallery.utils.AppScreenContent
+import com.feature.challenge.gallery.utils.isMediaPermissionGranted
 import com.feature.challenge.gallery.utils.openAppSettings
 import com.feature.challenge.gallery.utils.permissionDeniedAction
 import com.feature.challenge.gallery.utils.permissionDeniedMsg
 
 @Composable
 fun MediaItemsScreen(
-    viewModel: MediaItemsViewModel = hiltViewModel<MediaItemsViewModel>(),
+    viewModel: MediaItemsViewModelContract = hiltViewModel<MediaItemsViewModel>(),
     args: GalleryRoute,
     onFolderClick: (MediaItem) -> Unit,
     onBackClick: () -> Unit
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+
+    // To handle, for the user coming back from setting
+    var isRefreshRequired by rememberSaveable { mutableStateOf(false) }
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
+        if (isMediaPermissionGranted(context) && isRefreshRequired) {
+            viewModel.fetchAllMedia(args.folderPath)
+        }
+        isRefreshRequired = false
+    }
 
     // Permission handling code.
-    val askPermission = remember { mutableStateOf(true) }
+    val askPermission = remember { mutableStateOf(false) }
     HandleMediaPermission(
         askPermission = askPermission.value,
-        onAccepted = { viewModel.onAccepted(args.folderPath) },
+        onAccepted = { viewModel.fetchAllMedia(args.folderPath) },
         onDenied = viewModel::onDenied,
         onDismiss = { askPermission.value = false }
     )
 
+
     // Main body content of the screenÏÏ
-    val context = LocalContext.current
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     MediaItemsScreenContent(
         uiState = uiState,
         args = args,
         onAskPermission = { askPermission.value = true },
-        navigateToAppSetting = { openAppSettings(context) },
+        navigateToAppSetting = {
+//            isRefreshRequired = true
+            openAppSettings(context)
+        },
         onFolderClick = onFolderClick,
         onBackClick = onBackClick
     )
