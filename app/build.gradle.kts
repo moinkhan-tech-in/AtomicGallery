@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "com.challenge.avriocgallery"
+    namespace = "com.challenge.atomicgallery"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.challenge.avriocgallery"
+        applicationId = "com.challenge.atomicgallery"
         minSdk = 24
         targetSdk = 35
         versionCode = 1

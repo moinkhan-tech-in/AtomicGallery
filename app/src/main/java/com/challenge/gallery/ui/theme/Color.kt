@@ -1,4 +1,4 @@
-package com.challenge.avriocgallery.ui.theme
+package com.challenge.gallery.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

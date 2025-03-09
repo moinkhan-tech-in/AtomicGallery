@@ -71,7 +71,7 @@ private fun MediaItemsScreenContent(
     onFolderClick: (MediaItem) -> Unit
 ) {
     AppScreenContent(
-        navigationTitle = args.folderName ?: stringResource(R.string.title_avrioc_gallery),
+        navigationTitle = args.folderName ?: stringResource(R.string.title_atomic_gallery),
         isLoading = uiState is MediaItemsUiState.Loading,
         isHomeScreen = args.folderName == null,
         onBackClick = onBackClick

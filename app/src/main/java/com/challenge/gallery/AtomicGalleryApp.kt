@@ -1,4 +1,4 @@
-package com.challenge.avriocgallery
+package com.challenge.gallery
 
 import android.app.Application
 import android.content.Context
@@ -9,7 +9,7 @@ import coil3.video.VideoFrameDecoder
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class AvriocGalleryApp: Application(), SingletonImageLoader.Factory {
+class AtomicGalleryApp: Application(), SingletonImageLoader.Factory {
 
     override fun newImageLoader(context: Context): ImageLoader {
         return ImageLoader.Builder(context)

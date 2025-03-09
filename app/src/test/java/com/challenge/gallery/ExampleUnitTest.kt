@@ -1,4 +1,4 @@
-package com.challenge.avriocgallery
+package com.challenge.gallery
 
 import org.junit.Test
 

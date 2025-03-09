@@ -1,4 +1,4 @@
-package com.challenge.avriocgallery.navigation
+package com.challenge.gallery.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
@@ -7,7 +7,7 @@ import com.feature.challenge.gallery.navigation.GalleryBaseRoute
 import com.feature.challenge.gallery.navigation.gallerySection
 
 @Composable
-fun AvriocNavHost() {
+fun AtomicNavHost() {
     val navController = rememberNavController()
     NavHost(
         startDestination = GalleryBaseRoute,
