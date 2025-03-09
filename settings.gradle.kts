@@ -19,7 +19,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Avrioc Gallery"
+rootProject.name = "Atomic Gallery"
 include(":app")
 include(":data")
 include(":domain")
