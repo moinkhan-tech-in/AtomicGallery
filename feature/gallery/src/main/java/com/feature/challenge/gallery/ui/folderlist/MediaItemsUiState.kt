@@ -6,6 +6,8 @@ sealed class MediaItemsUiState {
 
     data object Loading: MediaItemsUiState()
 
+    data object NoMediaAvailable: MediaItemsUiState()
+
     data class Success(
         val mediaItemList: List<MediaItem> = emptyList()
     ): MediaItemsUiState()

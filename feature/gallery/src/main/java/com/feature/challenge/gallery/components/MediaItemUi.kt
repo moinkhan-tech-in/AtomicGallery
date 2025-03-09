@@ -163,11 +163,11 @@ fun MediaListItemUi(
 @Composable
 @Preview
 fun MediaGridItemUiPreview() {
-    MediaGridItemUi(FakeMediaItemItem)
+    MediaGridItemUi(FakeMediaItemWithSubItems)
 }
 
 @Composable
 @Preview
 fun MediaListItemUiPreview() {
-    MediaListItemUi(FakeMediaItemItem)
+    MediaListItemUi(FakeMediaItemWithSubItems)
 }

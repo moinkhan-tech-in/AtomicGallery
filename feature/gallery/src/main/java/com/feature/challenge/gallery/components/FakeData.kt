@@ -12,8 +12,8 @@ val FakeMediaItem = MediaItem(
     type = MediaItemType.Image
 )
 
-
-val FakeMediaItemItem = MediaItem(
+val FakeMediaItemWithSubItems = MediaItem(
+    uri = Uri.EMPTY,
     name = "Folder Name",
     path = "",
     type = MediaItemType.Folder,
@@ -26,7 +26,7 @@ val FakeMediaItemItem = MediaItem(
 
 val FakeMediaItemList = mutableListOf<MediaItem>().apply {
     repeat(5) {
-        add(FakeMediaItemItem)
+        add(FakeMediaItemWithSubItems)
     }
 }.toList()
 

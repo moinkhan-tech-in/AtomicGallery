@@ -53,10 +53,15 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.junit.jupiter)
     kapt(libs.hilt.android.compiler)
 
     testImplementation(libs.junit)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    testImplementation(kotlin("test"))
 }

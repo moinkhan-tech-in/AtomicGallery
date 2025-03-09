@@ -3,28 +3,14 @@ package com.feature.challenge.gallery.ui.folderlist
 import android.annotation.SuppressLint
 import android.content.res.Configuration
 import androidx.compose.animation.Crossfade
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.challenge.common.LocalViewType
@@ -35,8 +21,10 @@ import com.feature.challenge.gallery.R
 import com.feature.challenge.gallery.components.FakeMediaItemList
 import com.feature.challenge.gallery.components.MediaItemVerticalGridUi
 import com.feature.challenge.gallery.components.MediaItemVerticalListUi
+import com.feature.challenge.gallery.components.MessageContent
 import com.feature.challenge.gallery.navigation.GalleryRoute
 import com.feature.challenge.gallery.ui.folderlist.MediaItemsUiState.Loading
+import com.feature.challenge.gallery.ui.folderlist.MediaItemsUiState.NoMediaAvailable
 import com.feature.challenge.gallery.ui.folderlist.MediaItemsUiState.PermissionDenied
 import com.feature.challenge.gallery.ui.folderlist.MediaItemsUiState.Success
 import com.feature.challenge.gallery.utils.AppScreenContent
@@ -97,10 +85,19 @@ private fun MediaItemsScreenContent(
                     onFolderClick = onFolderClick
                 )
 
-                is PermissionDenied -> PermissionDeniedContent(
-                    uiState = state,
-                    askPermission = onAskPermission,
-                    navigateToAppSetting = navigateToAppSetting
+                is PermissionDenied -> MessageContent(
+                    imageRes = R.drawable.ic_empty,
+                    buttonText = stringResource(permissionDeniedAction(state)),
+                    title = stringResource(permissionDeniedMsg(state)),
+                    onButtonClick = when (state.rationalRequired) {
+                        true -> navigateToAppSetting
+                        false -> onAskPermission
+                    }
+                )
+
+                is NoMediaAvailable -> MessageContent(
+                    imageRes = R.drawable.ic_empty,
+                    title = stringResource(R.string.msg_no_media_available)
                 )
 
                 else -> {}
@@ -126,30 +123,6 @@ private fun MediaItemsContent(
                 mediaItems = folders,
                 onFolderClick = onFolderClick
             )
-        }
-    }
-}
-
-@Composable
-private fun PermissionDeniedContent(
-    uiState: PermissionDenied,
-    navigateToAppSetting: () -> Unit,
-    askPermission: () -> Unit
-) {
-    val onClick = when (uiState.rationalRequired) {
-        true -> navigateToAppSetting
-        false -> askPermission
-    }
-
-    Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Image(painterResource(R.drawable.ic_empty), contentDescription = null, colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary))
-        Text(text = stringResource(permissionDeniedMsg(uiState)), textAlign = TextAlign.Center)
-        Button(onClick = onClick) {
-            Text(stringResource(permissionDeniedAction(uiState)))
         }
     }
 }
@@ -214,6 +187,18 @@ fun MediaItemsScreenPermissionDeniedPreview() {
     AtomicGalleryTheme {
         MediaItemsScreenContent(
             uiState = PermissionDenied(rationalRequired = false),
+            args = GalleryRoute("Atomic")
+        )
+    }
+}
+
+@Composable
+@Preview(name = "Gallery Media Not available Dark Theme", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(name = "Gallery Media Not available Light theme", uiMode = Configuration.UI_MODE_NIGHT_NO)
+fun MediaItemsNoMediaAvailablePreview() {
+    AtomicGalleryTheme {
+        MediaItemsScreenContent(
+            uiState = NoMediaAvailable,
             args = GalleryRoute("Atomic")
         )
     }
