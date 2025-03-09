@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import com.challenge.common.ui.theme.AtomicGalleryTheme
 import com.challenge.gallery.navigation.AtomicNavHost
-import com.challenge.gallery.ui.theme.AtomicGalleryTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -1,4 +1,4 @@
-package com.challenge.gallery.ui.theme
+package com.challenge.common.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

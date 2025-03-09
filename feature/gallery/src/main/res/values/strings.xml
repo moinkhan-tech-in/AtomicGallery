@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="msg_media_rationale_message">Media access is required to display your photos and videos. You have denied it previously. Please grant permission from Settings to continue.</string>
-    <string name="msg_denied_media_message">This app needs access to your media to show your photos and videos. Please allow media access to continue.</string>
+    <string name="msg_media_rationale_message">Media access is required. Please grant permission from Settings to continue.</string>
+    <string name="msg_denied_media_message">This app needs access to your media to show your photos and videos.</string>
     <string name="action_rationale">Open Settings</string>
     <string name="action_denied">Allow Access</string>
     <string name="title_atomic_gallery">Atomic Gallery</string>

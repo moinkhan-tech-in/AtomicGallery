@@ -45,6 +45,7 @@ android {
 dependencies {
 
     implementation(project(":feature:gallery"))
+    implementation(project(":common"))
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
