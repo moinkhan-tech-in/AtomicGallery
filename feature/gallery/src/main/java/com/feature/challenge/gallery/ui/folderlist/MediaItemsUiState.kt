@@ -1,4 +1,4 @@
-package com.feature.challenge.gallery.ui
+package com.feature.challenge.gallery.ui.folderlist
 
 import com.challenge.common.model.MediaItem
 

@@ -8,7 +8,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.core.net.toUri
 import com.challenge.common.model.MediaItemType
 import com.feature.challenge.gallery.R
-import com.feature.challenge.gallery.ui.MediaItemsUiState
+import com.feature.challenge.gallery.ui.folderlist.MediaItemsUiState
 
 fun openAppSettings(context: Context) {
     val intent = Intent(ACTION_APPLICATION_DETAILS_SETTINGS).apply {

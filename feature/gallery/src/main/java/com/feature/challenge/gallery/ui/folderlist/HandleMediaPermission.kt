@@ -1,4 +1,4 @@
-package com.feature.challenge.gallery.ui
+package com.feature.challenge.gallery.ui.folderlist
 
 import android.Manifest
 import android.os.Build
@@ -6,7 +6,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import com.feature.challenge.gallery.ui.MediaItemsUiState.PermissionDenied
+import com.feature.challenge.gallery.ui.folderlist.MediaItemsUiState.PermissionDenied
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 

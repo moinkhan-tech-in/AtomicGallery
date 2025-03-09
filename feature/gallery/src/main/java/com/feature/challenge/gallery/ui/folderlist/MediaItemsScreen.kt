@@ -1,4 +1,4 @@
-package com.feature.challenge.gallery.ui
+package com.feature.challenge.gallery.ui.folderlist
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
@@ -36,9 +36,9 @@ import com.feature.challenge.gallery.components.FakeMediaItemList
 import com.feature.challenge.gallery.components.MediaItemVerticalGridUi
 import com.feature.challenge.gallery.components.MediaItemVerticalListUi
 import com.feature.challenge.gallery.navigation.GalleryRoute
-import com.feature.challenge.gallery.ui.MediaItemsUiState.Loading
-import com.feature.challenge.gallery.ui.MediaItemsUiState.PermissionDenied
-import com.feature.challenge.gallery.ui.MediaItemsUiState.Success
+import com.feature.challenge.gallery.ui.folderlist.MediaItemsUiState.Loading
+import com.feature.challenge.gallery.ui.folderlist.MediaItemsUiState.PermissionDenied
+import com.feature.challenge.gallery.ui.folderlist.MediaItemsUiState.Success
 import com.feature.challenge.gallery.utils.AppScreenContent
 import com.feature.challenge.gallery.utils.openAppSettings
 import com.feature.challenge.gallery.utils.permissionDeniedAction

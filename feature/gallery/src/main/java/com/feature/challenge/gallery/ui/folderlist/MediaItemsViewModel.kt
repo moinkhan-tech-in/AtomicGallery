@@ -1,11 +1,11 @@
-package com.feature.challenge.gallery.ui
+package com.feature.challenge.gallery.ui.folderlist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.challenge.domain.GetMediaHierarchyUseCase
-import com.feature.challenge.gallery.ui.MediaItemsUiState.Loading
-import com.feature.challenge.gallery.ui.MediaItemsUiState.PermissionDenied
-import com.feature.challenge.gallery.ui.MediaItemsUiState.Success
+import com.feature.challenge.gallery.ui.folderlist.MediaItemsUiState.Loading
+import com.feature.challenge.gallery.ui.folderlist.MediaItemsUiState.PermissionDenied
+import com.feature.challenge.gallery.ui.folderlist.MediaItemsUiState.Success
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

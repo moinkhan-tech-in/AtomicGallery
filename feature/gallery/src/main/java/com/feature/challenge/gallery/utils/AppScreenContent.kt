@@ -1,5 +1,6 @@
 package com.feature.challenge.gallery.utils
 
+import android.content.Context
 import android.widget.Toast
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.clickable
@@ -22,9 +23,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.challenge.common.LocalThemeMode
 import com.challenge.common.LocalViewType
+import com.challenge.common.ThemeMode
 import com.challenge.common.ThemeMode.Dark
 import com.challenge.common.ThemeMode.Light
 import com.challenge.common.ThemeMode.System
@@ -54,6 +57,8 @@ fun AppScreenContent(
                     Text(
                         modifier = Modifier.padding(horizontal = 16.dp),
                         text = navigationTitle,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
                         style = MaterialTheme.typography.titleLarge
                     )
                 },
@@ -66,42 +71,23 @@ fun AppScreenContent(
                     )
                 },
                 actions = {
-                    val uiModeIcon = when (uiMode.value) {
-                        Light -> R.drawable.ic_light_mode
-                        Dark -> R.drawable.ic_dark_mode
-                        System -> R.drawable.ic_theme_auto
-                    }
                     Icon(
                         tint = MaterialTheme.colorScheme.primary,
-                        painter = painterResource(uiModeIcon),
+                        painter = painterResource(uiMode.value.icon()),
                         contentDescription = null,
                         modifier = Modifier.clickable {
                             uiMode.value = uiMode.value.next()
-                            Toast.makeText(
-                                context,
-                                uiMode.value.toString(),
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            context.showToast(uiMode.value.toString())
                         }
                     )
-
                     Spacer(Modifier.size(12.dp))
-
-                    val viewModeIcon = when(localViewType.value) {
-                        ViewType.Grid -> R.drawable.ic_list_view_type
-                        ViewType.List -> R.drawable.ic_grid_view_type
-                    }
                     Icon(
                         tint = MaterialTheme.colorScheme.primary,
-                        painter = painterResource(viewModeIcon),
+                        painter = painterResource(localViewType.value.icon()),
                         contentDescription = null,
                         modifier = Modifier.clickable {
                             localViewType.value = localViewType.value.toggle()
-                            Toast.makeText(
-                                context,
-                                localViewType.value.toString(),
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            context.showToast(localViewType.value.toString())
                         }
                     )
                 }
@@ -116,13 +102,26 @@ fun AppScreenContent(
         ) {
             Crossfade(targetState = isLoading, label = "") {
                 if (it) {
-                    LinearProgressIndicator(modifier = Modifier
-                        .fillMaxWidth()
-                        .align(Alignment.Center))
+                    LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
                 } else {
                     content()
                 }
             }
         }
     }
+}
+
+fun ThemeMode.icon() = when (this) {
+    Light -> R.drawable.ic_light_mode
+    Dark -> R.drawable.ic_dark_mode
+    System -> R.drawable.ic_theme_auto
+}
+
+fun ViewType.icon() = when (this) {
+    ViewType.Grid -> R.drawable.ic_list_view_type
+    ViewType.List -> R.drawable.ic_grid_view_type
+}
+
+fun Context.showToast(message: String) {
+    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }

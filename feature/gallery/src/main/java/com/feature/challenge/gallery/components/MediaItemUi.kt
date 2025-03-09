@@ -28,7 +28,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
-import coil3.video.videoFrameMillis
 import com.challenge.common.model.MediaItem
 import com.challenge.common.model.MediaItemType
 import com.feature.challenge.gallery.utils.defaultGradient
@@ -48,8 +47,7 @@ fun MediaGridItemUi(
         Box(Modifier.fillMaxSize()) {
             MediaThumbnail(
                 modifier = Modifier.fillMaxSize(),
-                path = folderItem.getFirstMediaPath(),
-                mediaType = folderItem.type
+                path = folderItem.getFirstMediaPath()
             )
 
             Row(
@@ -96,15 +94,10 @@ fun MediaGridItemUi(
 }
 
 @Composable
-private fun MediaThumbnail(modifier: Modifier, path: String, mediaType: MediaItemType) {
+private fun MediaThumbnail(modifier: Modifier, path: String) {
     val context = LocalContext.current
     val request = ImageRequest.Builder(context)
         .data(path)
-        .apply {
-            if (mediaType == MediaItemType.Video) {
-                this.videoFrameMillis(1000)
-            }
-        }
         .build()
 
     AsyncImage(
@@ -134,8 +127,7 @@ fun MediaListItemUi(
                         color = MaterialTheme.colorScheme.primary,
                         shape = RoundedCornerShape(12.dp)
                     ),
-                path = folderItem.getFirstMediaPath(),
-                mediaType = folderItem.type
+                path = folderItem.getFirstMediaPath()
             )
 
             Icon(
