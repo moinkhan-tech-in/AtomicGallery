@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest package="com.feature.challenge.gallery.test"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <activity android:name="com.feature.challenge.gallery.TestActivity" />
+    </application>
+</manifest>
