@@ -14,6 +14,33 @@ Atomic Gallery is a modern gallery application built entirely using Jetpack Comp
 - Modular architecture for scalability
 - Theme updates based user's device theme **(Material You)**
 
+## 🏛️ Architecture  
+The project follows a clean and modular architecture:  
+
+```
+app -> :feature:gallery, :common
+
+:feature:gallery -> :domain, :common
+
+:domain -> :data, :common
+
+:data -> :common
+```
+
+### **Modules Overview**  
+- **app** → Main application entry point  
+- **feature:gallery** → Contains UI and feature-specific logic  
+- **domain** → Contains business logic and use cases  
+- **data** → Handles data sources (LocalStorage, Database, etc.)  
+- **common** → Contains shared utilities  
+
+## 🛠️ Tech Stack  
+- **Jetpack Compose** - UI Toolkit  
+- **Material 3 (M3)** - Modern Android UI components  
+- **Flow** - Reactive streams  
+- **Hilt** - Dependency injection  
+- **Coil** - Image loading  
+
 ## 📸 Screenshots  
 #### Landing Screen
 <img src="https://github.com/user-attachments/assets/d4c758dc-8133-4c9a-9eb4-cb1917ccf8ad" width="20%" />
@@ -49,33 +76,6 @@ Atomic Gallery is a modern gallery application built entirely using Jetpack Comp
 <img src="https://github.com/user-attachments/assets/76fec76a-543c-446d-95c5-735a5210c0cf" width="20%" />
 <img src="https://github.com/user-attachments/assets/52cc9e1a-a309-4f9a-ac84-dbce2adf0edc" width="20%" />
 
-
-## 🏛️ Architecture  
-The project follows a clean and modular architecture:  
-
-```
-app -> :feature:gallery, :common
-
-:feature:gallery -> :domain, :common
-
-:domain -> :data, :common
-
-:data -> :common
-```
-
-### **Modules Overview**  
-- **app** → Main application entry point  
-- **feature:gallery** → Contains UI and feature-specific logic  
-- **domain** → Contains business logic and use cases  
-- **data** → Handles data sources (LocalStorage, Database, etc.)  
-- **common** → Contains shared utilities  
-
-## 🛠️ Tech Stack  
-- **Jetpack Compose** - UI Toolkit  
-- **Material 3 (M3)** - Modern Android UI components  
-- **Flow** - Reactive streams  
-- **Hilt** - Dependency injection  
-- **Coil** - Image loading  
 
 ## 📦 Setup & Installation  
 1. Clone the repository  
