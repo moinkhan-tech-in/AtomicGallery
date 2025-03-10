@@ -72,7 +72,7 @@ fun MediaItemsScreen(
         args = args,
         onAskPermission = { askPermission.value = true },
         navigateToAppSetting = {
-//            isRefreshRequired = true
+            isRefreshRequired = true
             openAppSettings(context)
         },
         onFolderClick = onFolderClick,
