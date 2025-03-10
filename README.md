@@ -39,6 +39,17 @@ Atomic Gallery is a modern gallery application built entirely using Jetpack Comp
 <img src="https://github.com/user-attachments/assets/19fd5db2-a02f-459a-a3b6-e601dccb94e5" width="20%" />
 <img src="https://github.com/user-attachments/assets/6d843528-1d9a-46d0-aeb5-258520706e6e" width="20%" />
 
+#### Material You (Based on User's theme) [Light]
+<img src="https://github.com/user-attachments/assets/2d5c5338-7e91-4f1e-af51-ba51b1f07736" width="20%" />
+<img src="https://github.com/user-attachments/assets/110f15c7-7615-4d6c-b50d-56ccf2b0e729" width="20%" />
+<img src="https://github.com/user-attachments/assets/8b29fce9-2fa4-48b2-b3c8-a91c3250fdca" width="20%" />
+
+#### Material You (Based on User's theme) [Dark]
+<img src="https://github.com/user-attachments/assets/a112b17f-bcde-4f1b-89e4-48ee5b1cbdbe" width="20%" />
+<img src="https://github.com/user-attachments/assets/76fec76a-543c-446d-95c5-735a5210c0cf" width="20%" />
+<img src="https://github.com/user-attachments/assets/52cc9e1a-a309-4f9a-ac84-dbce2adf0edc" width="20%" />
+
+
 ## 🏛️ Architecture  
 The project follows a clean and modular architecture:  
 
